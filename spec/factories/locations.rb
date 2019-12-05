@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :location do
-    latitude { "MyString" }
-    longitude { "MyString" }
-    name { "MyString" }
-    rating { "" }
-    user { nil }
+    latitude { Faker::Address.latitude }
+    longitude { Faker::Address.longitude }
+    name { Faker::Address.community }
+    rating { rand(1..5) }
+    user
   end
 end
