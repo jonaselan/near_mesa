@@ -1,24 +1,24 @@
-# README
+# Near MeSa
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Extras
 
-Things you may want to cover:
+- Configuração com o docker
 
-* Ruby version
+```bash
+# definir variáveis de ambiente
+cp .env.example .env
 
-* System dependencies
+# constuir containers
+docker-compose build
 
-* Configuration
+# criar banco
+docker-compose run web rails db:create
 
-* Database creation
+# rodar migration
+docker-compose run web rails db:migrate
 
-* Database initialization
+# rodar aplicação em background
+docker-compose up -d
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Acessar em `localhost:3000` ou `0.0.0.0:3000`
