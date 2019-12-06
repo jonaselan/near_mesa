@@ -17,11 +17,18 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe 'GET #show' do
+    before :each do
+      @user = create(:user)
+    end
     it 'returns a success response' do
-      user = User.create! valid_attributes
-      get :show, params: { id: user.to_param }
+      get :show, params: { id: @user.to_param }
 
       expect(response).to be_successful
+    end
+
+    it 'returns a body without password' do
+      get :show, params: { id: @user.to_param }
+      expect(response.body.include? 'password').to be_falsey
     end
   end
 
@@ -86,7 +93,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       it 'does not change user\'s attributes' do
         put :update, params: {
           id: @user,
-          user: attributes_for(:user, email: 'email@email.com')
+          user: attributes_for(:invalid_user)
         }
 
         @user.reload
