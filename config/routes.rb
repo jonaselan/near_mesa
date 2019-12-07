@@ -5,9 +5,12 @@ Rails.application.routes.draw do
                      }
   namespace :api do
     namespace :v1 do
+      resources :users do
+        resources :locations, only: :create
+      end
+      resources :locations, except: :create
+
       resources :comments
-      resources :locations
-      resources :users
     end
   end
 end

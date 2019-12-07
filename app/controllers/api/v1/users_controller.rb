@@ -1,6 +1,6 @@
 module Api::V1
   class UsersController < BaseController
-    before_action :set_user, only: [:show, :update, :destroy]
+    before_action :set_user, only: %i[show update destroy]
 
     # GET /users
     def index
@@ -40,17 +40,18 @@ module Api::V1
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_user
-        @user = User
-          .where(["id = ?", params[:id]])
-          .select("id, email")
-          .first
-      end
 
-      # Only allow a trusted parameter "white list" through.
-      def user_params
-        params.require(:user).permit(:email, :password)
-      end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_user
+      @user = User
+              .where(['id = ?', params[:id]])
+              .select('id, email')
+              .first
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def user_params
+      params.require(:user).permit(:email, :password)
+    end
   end
 end

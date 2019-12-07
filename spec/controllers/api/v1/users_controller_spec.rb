@@ -4,9 +4,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   let(:valid_attributes) { attributes_for(:user) }
 
-  let(:invalid_attributes) {
-    skip('Add a hash of attributes invalid for your model')
-  }
+  let(:invalid_attributes) { attributes_for(:invalid_user) }
 
   describe 'GET #index' do
     it 'returns a success response' do
@@ -45,29 +43,27 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
         user = User.last
         expect(user).to_not be_nil
-        expect(user.username).to eq(valid_attributes[:username])
         expect(response).to have_http_status(:created)
       end
     end
 
-    # context 'with invalid params' do
-    #   it 'renders a JSON response with errors for the new user' do
+    context 'with invalid params' do
+      it 'renders a JSON response with errors for the new user' do
+        post :create, params: { user: invalid_attributes }
 
-    #     post :create, params: {user: invalid_attributes}
-    #     expect(response).to have_http_status(:unprocessable_entity)
-    #     expect(response.content_type).to eq('application/json')
-    #   end
-    # end
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
   end
 
   describe 'PUT #update' do
     before :each do
-      @user = create(:user, username: 'user', email: 'email@email.com')
+      @user = create(:user, email: 'email@email.com')
     end
 
     context 'with valid params' do
       let(:new_attributes) {
-        attributes_for(:user, username: 'user_change', email: 'change@email.com')
+        attributes_for(:user, email: 'change@email.com')
       }
 
       it 'updates the requested user' do
@@ -76,7 +72,6 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         }
 
         @user.reload
-        expect(@user.username).to eq('user_change')
         expect(@user.email).to eq('change@email.com')
       end
 
@@ -93,11 +88,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       it 'does not change user\'s attributes' do
         put :update, params: {
           id: @user,
-          user: attributes_for(:invalid_user)
+          user: invalid_attributes
         }
 
         @user.reload
-        expect(@user.username).to eq('user')
         expect(@user.email).to eq('email@email.com')
       end
     end
