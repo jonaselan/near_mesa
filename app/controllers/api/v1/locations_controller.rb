@@ -1,51 +1,54 @@
-class LocationsController < BaseController
-  before_action :set_location, only: [:show, :update, :destroy]
+module Api::V1
+  class LocationsController < BaseController
+    before_action :set_location, only: [:show, :update, :destroy]
+    before_action :authenticate_user
 
-  # GET /locations
-  def index
-    @locations = Location.all
+    # GET /locations
+    def index
+      @locations = Location.all
 
-    render json: @locations
-  end
-
-  # GET /locations/1
-  def show
-    render json: @location
-  end
-
-  # POST /locations
-  def create
-    @location = Location.new(location_params)
-
-    if @location.save
-      render json: @location, status: :created, location: @location
-    else
-      render json: @location.errors, status: :unprocessable_entity
+      render json: @locations
     end
-  end
 
-  # PATCH/PUT /locations/1
-  def update
-    if @location.update(location_params)
+    # GET /locations/1
+    def show
       render json: @location
-    else
-      render json: @location.errors, status: :unprocessable_entity
     end
+
+    # POST /locations
+    def create
+      @location = Location.new(location_params)
+
+      if @location.save
+        render json: @location, status: :created, location: @location
+      else
+        render json: @location.errors, status: :unprocessable_entity
+      end
+    end
+
+    # PATCH/PUT /locations/1
+    def update
+      if @location.update(location_params)
+        render json: @location
+      else
+        render json: @location.errors, status: :unprocessable_entity
+      end
+    end
+
+    # DELETE /locations/1
+    def destroy
+      @location.destroy
+    end
+
+    private
+      # Use callbacks to share common setup or constraints between actions.
+      def set_location
+        @location = Location.find(params[:id])
+      end
+
+      # Only allow a trusted parameter "white list" through.
+      def location_params
+        params.require(:location).permit(:latitude, :longitude, :name, :rating, :user_id)
+      end
   end
-
-  # DELETE /locations/1
-  def destroy
-    @location.destroy
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_location
-      @location = Location.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def location_params
-      params.require(:location).permit(:latitude, :longitude, :name, :rating, :user_id)
-    end
 end
