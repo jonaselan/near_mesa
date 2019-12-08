@@ -6,7 +6,6 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
-  has_many :comments
-  has_many :ratings
+  has_many :reviews
   has_many :locations
 end

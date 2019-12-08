@@ -3,8 +3,7 @@ class Location < ApplicationRecord
   validates_uniqueness_of :latitude, scope: :longitude
 
   belongs_to :user
-  has_many :comments
-  has_many :ratings
+  has_many :reviews
 
   scope :near, lambda { |lat, lng|
     find_by_sql(["

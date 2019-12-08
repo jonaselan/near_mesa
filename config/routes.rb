@@ -14,8 +14,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users
       resources :locations, only: %i[index create] do
-        resources :ratings, only: %i[index create]
-        resources :comments, only: %i[index create]
+        resources :reviews, only: %i[index create]
       end
     end
   end

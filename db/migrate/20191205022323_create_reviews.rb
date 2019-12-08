@@ -1,7 +1,8 @@
-class CreateComments < ActiveRecord::Migration[6.0]
+class CreateReviews < ActiveRecord::Migration[6.0]
   def change
-    create_table :comments do |t|
-      t.text :body
+    create_table :reviews do |t|
+      t.text :comment
+      t.integer :rating
       t.references :location, null: false, foreign_key: true
       t.references :user, null: false, foreign_key: true
 
