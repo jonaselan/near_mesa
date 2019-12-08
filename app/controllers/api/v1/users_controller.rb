@@ -1,24 +1,28 @@
 module Api::V1
   class UsersController < ApplicationController
+    before_action :authenticate_user!
     before_action :set_user, only: %i[show]
 
-    # GET /users/1
     def show
-      render json: @user
+      if @user != current_user
+        return render json: {
+            error: 'You are not allowed to perform this action.'
+          }, status: :forbidden
+      end
+
+      render json: @user.to_json(include: [:reviews])
     end
 
-    # PATCH/PUT /users/1
     def update
-      if @user.update(user_params)
-        render json: @user
+      if current_user.update(user_params)
+        render json: current_user
       else
-        render json: @user.errors, status: :unprocessable_entity
+        render json: current_user.errors, status: :unprocessable_entity
       end
     end
 
     private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User
               .where(['id = ?', params[:id]])

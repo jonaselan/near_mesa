@@ -6,69 +6,74 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   let(:invalid_attributes) { attributes_for(:invalid_user) }
 
-  describe 'GET #index' do
-    it 'returns a success response' do
-      user = User.create! valid_attributes
-      get :index, params: {}
-      expect(response).to be_successful
-    end
+  def auth_token_to_headers(user)
+    default_headers
+    @request.headers['X-User-Email'] = user.email.to_s
+    @request.headers['X-User-Token'] = user.authentication_token.to_s
+  end
+
+  def clear_auth_token
+    default_headers
+    @request.headers['X-User-Email'] = nil
+    @request.headers['X-User-Token'] = nil
+  end
+
+  def default_headers
+    @request.headers['Accept'] = 'application/json'
+    @request.headers['Content-Type'] = 'application/json'
+  end
+
+  before :each do
+    @user = create(:user, email: 'email@email.com')
   end
 
   describe 'GET #show' do
-    before :each do
-      @user = create(:user)
-    end
     it 'returns a success response' do
+      auth_token_to_headers @user
       get :show, params: { id: @user.to_param }
 
-      expect(response).to be_successful
+      expect(response.status).to eq 200
+    end
+
+    it 'allow to a authenticated see only your profile' do
+      auth_token_to_headers @user
+
+      other_user = create(:user)
+      get :show, params: { id: other_user.id }
+
+      expect(response.status).to eq 403
+    end
+
+    it 'returns a body with created reviews' do
+      auth_token_to_headers @user
+      review = create(:review, user_id: @user.id)
+      get :show, params: { id: @user.to_param }
+      reviews = JSON.parse(response.body)['reviews']
+
+      expect(reviews.first['id']).to eq review.id
     end
 
     it 'returns a body without password' do
       get :show, params: { id: @user.to_param }
       expect(response.body.include?('password')).to be_falsey
     end
-  end
 
-  describe 'POST #create' do
-    context 'with valid params' do
-      it 'creates a new User' do
-        expect {
-          post :create, params: { user: valid_attributes }
-        }.to change(User, :count).by(1)
-      end
-
-      it 'renders a JSON response with the new user' do
-        post :create, params: { user: valid_attributes }
-
-        user = User.last
-        expect(user).to_not be_nil
-        expect(response).to have_http_status(:created)
-      end
-    end
-
-    context 'with invalid params' do
-      it 'renders a JSON response with errors for the new user' do
-        post :create, params: { user: invalid_attributes }
-
-        expect(response).to have_http_status(:unprocessable_entity)
+    context 'when no user is authenticated' do
+      it 'requires to authenticated' do
+        clear_auth_token
+        get :show, params: { id: @user.to_param }
+        expect(response.status).to eq(401)
       end
     end
   end
 
   describe 'PUT #update' do
-    before :each do
-      @user = create(:user, email: 'email@email.com')
-    end
-
     context 'with valid params' do
-      let(:new_attributes) {
-        attributes_for(:user, email: 'change@email.com')
-      }
-
       it 'updates the requested user' do
+        auth_token_to_headers @user
         put :update, params: {
-          id: @user.to_param, user: new_attributes
+          id: @user.to_param,
+          user: attributes_for(:user, email: 'change@email.com')
         }
 
         @user.reload
@@ -76,6 +81,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
 
       it 'renders a JSON response with the user' do
+        auth_token_to_headers @user
         put :update, params: {
           id: @user.to_param, user: valid_attributes
         }
@@ -86,6 +92,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     context 'with invalid params' do
       it 'does not change user\'s attributes' do
+        auth_token_to_headers @user
         put :update, params: {
           id: @user,
           user: invalid_attributes
@@ -95,16 +102,16 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(@user.email).to eq('email@email.com')
       end
     end
-  end
 
-  describe 'DELETE #destroy' do
-    it 'destroys the requested user' do
-      user = create :user
-      expect {
-        delete :destroy, params: {
-          id: user.to_param
+    context 'when no user is authenticated' do
+      it 'requires to authenticated' do
+        clear_auth_token
+        put :update, params: {
+          id: @user,
+          user: valid_attributes
         }
-      }.to change(User, :count).by(-1)
+        expect(response.status).to eq(401)
+      end
     end
   end
 end
