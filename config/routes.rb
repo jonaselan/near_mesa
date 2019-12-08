@@ -8,9 +8,11 @@ Rails.application.routes.draw do
       resources :users do
         resources :locations, only: :create
       end
-      resources :locations, except: :create
 
-      resources :comments
+      resources :locations, only: :index do
+        resources :ratings, only: %i[index create]
+        resources :comments, only: %i[index create]
+      end
     end
   end
 end

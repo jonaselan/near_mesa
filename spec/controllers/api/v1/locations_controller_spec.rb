@@ -13,14 +13,6 @@ RSpec.describe Api::V1::LocationsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
-    it 'returns a success response' do
-      location = create(:location)
-      get :show, params: { id: location.to_param }
-      expect(response).to be_successful
-    end
-  end
-
   describe 'POST #create' do
     before :each do
       @user = create(:user)
@@ -56,46 +48,4 @@ RSpec.describe Api::V1::LocationsController, type: :controller do
       end
     end
   end
-
-  # describe "PUT #update" do
-  #   context "with valid params" do
-  #     let(:new_attributes) {
-  #       skip("Add a hash of attributes valid for your model")
-  #     }
-
-  #     it "updates the requested location" do
-  #       location = Location.create! valid_attributes
-  #       put :update, params: {id: location.to_param, location: new_attributes}
-  #       location.reload
-  #       skip("Add assertions for updated state")
-  #     end
-
-  #     it "renders a JSON response with the location" do
-  #       location = Location.create! valid_attributes
-
-  #       put :update, params: {id: location.to_param, location: valid_attributes}
-  #       expect(response).to have_http_status(:ok)
-
-  #     end
-  #   end
-
-  #   context "with invalid params" do
-  #     it "renders a JSON response with errors for the location" do
-  #       location = Location.create! valid_attributes
-
-  #       put :update, params: {id: location.to_param, location: invalid_attributes}
-  #       expect(response).to have_http_status(:unprocessable_entity)
-
-  #     end
-  #   end
-  # end
-
-  # describe "DELETE #destroy" do
-  #   it "destroys the requested location" do
-  #     location = Location.create! valid_attributes
-  #     expect {
-  #       delete :destroy, params: {id: location.to_param}
-  #     }.to change(Location, :count).by(-1)
-  #   end
-  # end
 end
