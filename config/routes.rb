@@ -12,11 +12,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :users do
-        resources :locations, only: :create
-      end
-
-      resources :locations, only: :index do
+      resources :users
+      resources :locations, only: %i[index create] do
         resources :ratings, only: %i[index create]
         resources :comments, only: %i[index create]
       end

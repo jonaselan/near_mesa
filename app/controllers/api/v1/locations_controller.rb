@@ -1,6 +1,5 @@
 module Api::V1
   class LocationsController < ApplicationController
-    before_action :set_user, only: [:create]
     before_action :authenticate_user!
 
     def index
@@ -14,12 +13,7 @@ module Api::V1
     end
 
     def create
-      # TODO: verificar também se ele é igual ao usuário logado
-      unless @user
-        return render json: { error: 'User don\'t exist' }, status: :not_found
-      end
-
-      @location = @user.locations.create(location_params)
+      @location = current_user.locations.create(location_params)
 
       if @location.save
         render json: @location, status: :created
@@ -29,10 +23,6 @@ module Api::V1
     end
 
     private
-
-    def set_user
-      @user = User.find_by_id params[:user_id]
-    end
 
     def location_params
       params.require(:location).permit(:latitude, :longitude, :name)
