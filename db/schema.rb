@@ -51,6 +51,9 @@ ActiveRecord::Schema.define(version: 2019_12_08_023547) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "uuid"
+    t.string "authentication_token"
+    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
   end
 
   add_foreign_key "comments", "locations"

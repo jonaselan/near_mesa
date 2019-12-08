@@ -1,7 +1,7 @@
 module Api::V1
-  class LocationsController < BaseController
+  class LocationsController < ApplicationController
     before_action :set_user, only: [:create]
-    # before_action :authenticate_user
+    before_action :authenticate_user!
 
     def index
       begin

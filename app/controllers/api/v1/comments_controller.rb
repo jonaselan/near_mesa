@@ -1,5 +1,5 @@
 module Api::V1
-  class CommentsController < BaseController
+  class CommentsController < ApplicationController
 
     def index
       @comments = Comment.all
@@ -16,7 +16,7 @@ module Api::V1
       @comment = @user.comments.build(location_params)
 
       # @comment = Comment.new(comment_params)
-  byebug
+
       if @comment.save
         render json: @comment, status: :created, location: @comment
       else

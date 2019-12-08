@@ -82,7 +82,6 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
-    jwt (2.2.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -107,8 +106,6 @@ GEM
     puma (4.3.1)
       nio4r (~> 2.0)
     rack (2.0.7)
-    rack-cors (1.1.0)
-      rack (>= 2.0.0)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.0.1)
@@ -162,6 +159,10 @@ GEM
       rspec-support (~> 3.8)
     rspec-support (3.9.0)
     ruby_dep (1.5.0)
+    simple_token_authentication (1.17.0)
+      actionmailer (>= 3.2.6, < 7)
+      actionpack (>= 3.2.6, < 7)
+      devise (>= 3.2, < 6)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -193,13 +194,12 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faker
-  jwt
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
-  rack-cors
   rails (~> 6.0.1)
   rspec-rails (~> 4.0.0.beta2)
+  simple_token_authentication
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
