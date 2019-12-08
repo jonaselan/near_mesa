@@ -9,7 +9,6 @@ module Api::V1
     skip_before_action :authenticate_entity!, raise: false, only: [:create]
 
     skip_before_action :authenticate_scope!
-    append_before_action :authenticate_scope!, only: [:destroy]
 
     def create
       build_resource(sign_up_params)
@@ -21,12 +20,6 @@ module Api::V1
         clean_up_passwords resource
         render json: resource.errors.full_messages, status: :unprocessable_entity
       end
-    end
-
-    def destroy
-      resource.deactivated_at = DateTime.now
-      resource.save!
-      Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
     end
 
     private
