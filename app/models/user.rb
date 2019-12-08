@@ -6,6 +6,7 @@ class User < ApplicationRecord
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   has_many :comments
+  has_many :ratings
   has_many :locations
 
   def generate_jwt
