@@ -5,7 +5,11 @@ module Api::V1
     # before_action :authenticate_user
 
     def index
-      @locations = Location.all
+      begin
+        @locations = LocationOrder.new(params).order
+      rescue => e
+        return render json: { error: e.message }, status: :unprocessable_entity
+      end
 
       render json: @locations
     end

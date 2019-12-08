@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
 RSpec.describe Api::V1::LocationsController, type: :controller do
@@ -7,27 +5,27 @@ RSpec.describe Api::V1::LocationsController, type: :controller do
 
   let(:invalid_attributes) { attributes_for(:invalid_location) }
 
-  before :each do
-    @user = create(:user)
+  describe 'GET #index' do
+    it 'returns a success response' do
+      location = create(:location)
+      get :index, params: {}
+      expect(response).to be_successful
+    end
   end
 
-  # describe 'GET #index' do
-  #   it 'returns a success response' do
-  #     location = Location.create! valid_attributes
-  #     get :index, params: {}
-  #     expect(response).to be_successful
-  #   end
-  # end
-
-  # describe "GET #show" do
-  #   it "returns a success response" do
-  #     location = Location.create! valid_attributes
-  #     get :show, params: {id: location.to_param}
-  #     expect(response).to be_successful
-  #   end
-  # end
+  describe 'GET #show' do
+    it 'returns a success response' do
+      location = create(:location)
+      get :show, params: { id: location.to_param }
+      expect(response).to be_successful
+    end
+  end
 
   describe 'POST #create' do
+    before :each do
+      @user = create(:user)
+    end
+
     context 'with valid params' do
       it 'creates a new Location and related with the user' do
         expect do

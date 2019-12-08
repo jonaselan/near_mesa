@@ -26,7 +26,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     it 'returns a body without password' do
       get :show, params: { id: @user.to_param }
-      expect(response.body.include? 'password').to be_falsey
+      expect(response.body.include?('password')).to be_falsey
     end
   end
 
