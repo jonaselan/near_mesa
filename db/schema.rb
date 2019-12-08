@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 2019_12_07_040437) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "latitude"
-    t.string "longitude"
+    t.float "latitude"
+    t.float "longitude"
     t.string "name"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
