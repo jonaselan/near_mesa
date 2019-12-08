@@ -3,7 +3,7 @@ module Api::V1
     before_action :authenticate_user!
 
     def index
-      @reviews = Review.all
+      @reviews = Review.where(location_id: params[:location_id])
 
       render json: @reviews
     end

@@ -13,7 +13,7 @@ module Api::V1
     end
 
     def create
-      @location = current_user.locations.create(location_params)
+      @location = current_user.locations.build(location_params)
 
       if @location.save
         render json: @location, status: :created

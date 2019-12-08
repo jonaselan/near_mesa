@@ -7,7 +7,7 @@ FactoryBot.define do
 
     factory :invalid_review do
       comment { '' }
-      rating { rand(1..10) }
+      rating { 0 }
     end
   end
 end
