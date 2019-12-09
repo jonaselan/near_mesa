@@ -1,0 +1,16 @@
+language: ruby
+rvm:
+  - 2.6.3
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database near_mesa_test;' -U postgres
+deploy:
+  provider: heroku
+  api_key:
+    secure: NTt5XNDiwvHOYbUp4k3cCvagQRD8BZXkdxmfj58RpxUTTCY26Yx4rd8Cfum07shc1p+xBiECrYQqd8P9yAdF85FPV5/E6BmgqMuPeFr+JALbNzE+9gJbfwWZF8aXnoYjIK1D9DfVgDLd7c2Bk3qTu4BMd8TqqODnzPF2QQfUIkqsYTj6EQuCXoWGALlwC4WCeEBNGhYUAYuojW3/nRVs4KDp0x4vZH55ZxVEL/mHCQoBYwT4dz0GmivfP0KpUjiu6mmuTpq2WL4dFdi+Urjf4qUWr/Ei/pbv0/C5csHYorAB0caQBi71tiOMLOVTkef/bUx/Jb4HHlQnFMYG2P0Ghld9JQWAoVnNuQ1kxOnGWBIeR0sEyZwNEpou7kJCbVKBZ9iRUlEYlM7HKKDAHT9D0kHgWcviPSSSWpyvECcni06IFBt6c+w1V73u9xrrJ7YfHMlYgPYvBNIbfmuM17Bhwj7KVqCSbS2LNuPNWM5lps3l8/1q6dkXvrmBO8R8gf83HU+4XkGg+kMIBfpfz7keKX7lyGfpCIoQAW6px4AhT1czDPuGou4S2S8UVrPUF3lzaIVcHsGufbTnM/k0fcioEB7aPMpwiEdMy5Vdb4Dt4J3TrFunjdzfLh5ri0IxF5wkWzVR8n9tLjspSSHVHopU/E3pl/PSKKpkJGM8Kq0SVsU=
+  app: near-mesa
+  on:
+    repo: jonaselan/near-meSA
+notifications:
+  email: false
