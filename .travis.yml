@@ -1,16 +1,18 @@
 language: ruby
+cache: bundler
 rvm:
   - 2.6.3
 services:
   - postgresql
 before_script:
   - psql -c 'create database near_mesa_test;' -U postgres
+  - bundle install --jobs=3 --retry=3 --deployment
 deploy:
   provider: heroku
   api_key:
-    secure: NTt5XNDiwvHOYbUp4k3cCvagQRD8BZXkdxmfj58RpxUTTCY26Yx4rd8Cfum07shc1p+xBiECrYQqd8P9yAdF85FPV5/E6BmgqMuPeFr+JALbNzE+9gJbfwWZF8aXnoYjIK1D9DfVgDLd7c2Bk3qTu4BMd8TqqODnzPF2QQfUIkqsYTj6EQuCXoWGALlwC4WCeEBNGhYUAYuojW3/nRVs4KDp0x4vZH55ZxVEL/mHCQoBYwT4dz0GmivfP0KpUjiu6mmuTpq2WL4dFdi+Urjf4qUWr/Ei/pbv0/C5csHYorAB0caQBi71tiOMLOVTkef/bUx/Jb4HHlQnFMYG2P0Ghld9JQWAoVnNuQ1kxOnGWBIeR0sEyZwNEpou7kJCbVKBZ9iRUlEYlM7HKKDAHT9D0kHgWcviPSSSWpyvECcni06IFBt6c+w1V73u9xrrJ7YfHMlYgPYvBNIbfmuM17Bhwj7KVqCSbS2LNuPNWM5lps3l8/1q6dkXvrmBO8R8gf83HU+4XkGg+kMIBfpfz7keKX7lyGfpCIoQAW6px4AhT1czDPuGou4S2S8UVrPUF3lzaIVcHsGufbTnM/k0fcioEB7aPMpwiEdMy5Vdb4Dt4J3TrFunjdzfLh5ri0IxF5wkWzVR8n9tLjspSSHVHopU/E3pl/PSKKpkJGM8Kq0SVsU=
+    secure: flrD0FXep9Bc/LbalEnPJf8HFOkQlLI+KwOiSYFL2YTa86USOqitlLKwzFGe6BGRDkF9IBxigc5l+KZE3YYandJ2O8izKlpoADUQqB7BI5CZaeQjSrtBt7NYfZPW9e3vWcMbOE2lGVnQ82e2BLSR+g4MerfFktSYf/Rl4mTnd+j3Iyyscby/kuLtzVfBuYbN0SjlDTERhQZCpP9WVfqrWgraWOhxG4oJJBkK5Q7Lr3kOq5e0avhVvfXGV+rVDF2bIdu4fPcV2W1znpiWonyN4eZJj8mfvylfzUBDZq+OWQ10cYaYaCee3D31npfL9Mlb0souVhm0agm1GFMtDtsqYB2LlxDNW9j7EVJkkBCeYqEqIlJulltLXSXvyIDMHJIG+nL6Z8FUYuAFdkjxUwVNdZUhighOUJ8YuMj7odkLzAeNjBbdx9MsMlfQnOIGFY1q83b499ChYOSSuD9Xjcz4SEQFmWKYikLoexETjcHdgxI7LSuFKzd7pUyigLzcBaL78cd4hYffpMopdf8ZQqA9/242yBWR+Ultmxrgz5EKTP4USFe26V5Z+3sEMEiUhnaikbb7VqSvFf4p3Z1OfR1Koh8ayBwk+T0QzJ83tWk5DmAsfPiNiDEcXuL8VtFoLvVep/0owUVQG5j8vdg9GHytJYjWThWV3U+6pXzCw978dKk=
   app: near-mesa
   on:
-    repo: jonaselan/near-meSA
+    repo: jonaselan/near_mesa
 notifications:
   email: false
