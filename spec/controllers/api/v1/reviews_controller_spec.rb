@@ -35,7 +35,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
         expect do
           post :create, params: {
             location_id: @location.id,
-            review: valid_attributes.merge(location_id: @location.id)
+            review: valid_attributes
           }
         end.to change(Review, :count).by(1)
         review = Review.last

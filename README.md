@@ -27,7 +27,7 @@ Sempre quando recebo um problema a ser resolvido, tento entender ao máximo o ce
 
 ### Api
 
-A documentação foi feita no [Postman](https://web.postman.co/collections/8869351-abc40e98-67f0-4a7c-a711-1384e76b4468?version=latest&workspace=79760668-1ca1-4eda-88ad-277ed63375eb)
+A documentação foi feita no Postman e pode ser [acessada aqui](https://documenter.getpostman.com/view/8869351/SWE57z5x?version=latest).
 
 ### Docker
 

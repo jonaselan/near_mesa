@@ -9,7 +9,7 @@ module Api::V1
     end
 
     def create
-      @review = current_user.reviews.build(review_params)
+      @review = current_user.reviews.build(review_params.merge(location_id: params[:location_id]))
 
       if @review.save
         render json: @review, status: :created
